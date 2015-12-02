@@ -7,18 +7,6 @@ var API_KEY = 'SOHI1JMKEKOSMGRC5';
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-<<<<<<< HEAD
-		//$scope.getHotArtists = function() {
-			var request1 = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:somalia' + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
-			console.log(request1)
-			$http.get(request1)
-			.then(function(response) {
-					console.log("...");
-					$scope.topHot = response.data;
-			}) 
-		//}
-}]);
-=======
 		var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:somalia' + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
 		console.log(request)
 		$http.get(request)
@@ -27,7 +15,6 @@ var myApp = angular.module('WorldApp', [])
 				$scope.topHot = response.data;
 		}) 
 	}]);
->>>>>>> afae57a1d2592f43cbae71e6550f7905e755ce9f
 
 $(document).ready(function(){
     $.getJSON('data/country.json', function(data) {
@@ -52,7 +39,7 @@ $(document).ready(function(){
                     verticalAlign: 'bottom'
                 }
             },
-<<<<<<< HEAD
+
             colors: ['#23CF5F '],
 
             chart: {
@@ -63,26 +50,35 @@ $(document).ready(function(){
                     point:{
                         events:{
                             click: function(){
-                                alert(this.name);
+                                var fullName = this.name.toLowerCase();
+                                fullName = fullName.split(" ");
+                                if (fullName.length == 1) {
+                                    fullName = fullName[0];
+                                } else {
+                                    var urlName = '';
+                                    for (var i = 0; i < fullName.length; i++) {
+                                        urlName += fullName[i];
+                                        if (fullName[i + 1] != null) {
+                                            urlName += '+';
+                                        }
+                                    }
+                                    fullName = urlName;
+                                }
+                                console.log(fullName);
                             }
                         }
                     }
                 }
             },
-=======
 
-            colors: ['#000000'],
-            
->>>>>>> afae57a1d2592f43cbae71e6550f7905e755ce9f
             series : [{
                 data : data,
                 mapData: Highcharts.maps['custom/world-highres'],
                 joinBy: 'hc-key',
-<<<<<<< HEAD
+
                 name: 'Random data',
                 borderColor: "#000000",
-=======
->>>>>>> afae57a1d2592f43cbae71e6550f7905e755ce9f
+
                 states: {
                     hover: {
                         color: '#F0FFFF'
