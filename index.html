@@ -1,20 +1,30 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>World Music</title>
+	  <link rel="icon" href="img/earth.png">
 
-  <link rel="stylesheet" href="css/main.css">
-</head>
+	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 
-<body class="container">
-  
-  <h1></h1>
+	  <title>World Music</title>
 
-  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="js/script.js"></script>
-</body>
+	  <link rel="stylesheet" href="css/main.css">
+	</head>
+
+	<body>
+		<div class="container" ng-app='WorldApp' ng-controller='WorldCtrl'>
+	  
+	  		<h1>World Map</h1>
+	  		<tr>
+	  			<td>{{bio}}</td>
+  			</tr>
+
+  		</div>
+
+	  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	  <script src="js/app.js"></script>
+	</body>
 </html>
