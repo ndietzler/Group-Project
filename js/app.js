@@ -1,20 +1,19 @@
 'use strict'
 
-var BASE_URL = 'http://developer.echonest.com/api/v4/';
+var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
 var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
-var endpoint = 'http://developer.echonest.com/api/v4/'
-var apiKey = 'NO_API_KEY';
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-		//$scope.getBios = function() {
-			var request = BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' + '&format=json';
-			console.log(request)
-			$http.get(request)
+		//$scope.getHotArtists = function() {
+			var request1 = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:somalia' + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
+			console.log(request1)
+			$http.get(request1)
 			.then(function(response) {
 					console.log("...");
-					$scope.bio = response.data["response"]["status"]["version"];
+					$scope.topHot = response.data;
 			}) 
 		//}
 }]);
@@ -42,9 +41,6 @@ $(document).ready(function(){
                     verticalAlign: 'bottom'
                 }
             },
-            // colorAxis: {
-            //     min: 0
-            // },
             colors: ['#23CF5F '],
 
             chart: {
@@ -74,9 +70,9 @@ $(document).ready(function(){
                 },
                 dataLabels: {
                     enabled: false,
-                    //format: '{point.name}'
                 }
             }]
         })
     })
 });
+

@@ -1,3 +1,4 @@
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");
 body {
 	background-color: black;
 	color: white;
@@ -6,10 +7,12 @@ body {
 }
 
 #topper{
-	background-color: #302f2f
+	background-color: #302f2f;
 	margin-top: 0px;
 	padding: .25em;
+	width: 100%;
 }
+
 h1 {
 	
 }
@@ -20,8 +23,20 @@ h1 {
     max-width: 800px; 
     margin: 0 auto; 
 }
+
+/*@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");*/
+
 .loading {
     margin-top: 10em;
     text-align: center;
     color: gray;
+}
+
+@media screen and (min-width: 768px) {
+	#map {
+	    height: 500px; 
+	    min-width: 768px; 
+	    max-width: 1500px; 
+	    margin: 0 auto;
+	}   
 }
