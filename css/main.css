@@ -1,11 +1,16 @@
-#container {
-    height: 500px; 
-    min-width: 310px; 
-    max-width: 800px; 
-    margin: 0 auto; 
-}
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");
+
 .loading {
     margin-top: 10em;
     text-align: center;
     color: gray;
+}
+
+@media screen and (min-width: 768px) {
+	#map {
+	    height: 500px; 
+	    min-width: 768px; 
+	    max-width: 1500px; 
+	    margin: 0 auto;
+	}   
 }
