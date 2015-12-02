@@ -6,13 +6,12 @@ var API_KEY = 'SOHI1JMKEKOSMGRC5';
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-			var request = BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' + '&format=json';
-			console.log(request)
-			$http.get(request)
-			.then(function(response) {
-					console.log("...");
-					$scope.bio = response.data["response"]["status"]["version"];
-	}) 
+		var request = BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' + '&format=json';
+		console.log(request)
+		$http.get(request)
+		.then(function(response) {
+			$scope.bio = response.data["response"]["status"]["version"];
+	    }) 
 }]);
 
 $(function(){
@@ -41,7 +40,7 @@ $(function(){
                 data : data,
                 mapData: Highcharts.maps['custom/world-highres'],
                 joinBy: 'hc-key',
-                name: 'Random data',
+                //name: 'Random data',
                 states: {
                     hover: {
                         color: '#BADA55'
@@ -49,10 +48,23 @@ $(function(){
                 },
                 dataLabels: {
                     enabled: false,
-                    //format: '{point.name}'
+                    format: '{point.name}'
                 }
             }]
         })
+
+        for (var i = 0; i < data.length; i++) {
+            var fullName = {point.name};
+            fullName = fullName.toLowerCase();
+            console.log(fullName);
+
+
+            // var countryName =;
+            // var newName = "value" + i;
+            // jsonObj.members.viewers[newUser] = newValue ;
+            // data[countryName] = newName;
+        }
+
     })
 });
 
