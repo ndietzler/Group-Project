@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-'use strict';
-
-$(function () {
-
-    // Prepare demo data
-=======
 'use strict'
    
 $(function () {
 
->>>>>>> 732435f35aafa2ee89ff00963f5672cdc9a6e3fe
     var data = [
         {
             "hc-key": "fo",
@@ -865,17 +857,6 @@ $(function () {
         }
     ];
 
-<<<<<<< HEAD
-    // Initiate the chart
-    $('#container').highcharts('Map', {
-
-        title : {
-            text : 'Highmaps basic demo'
-        },
-
-        subtitle : {
-            text : 'Source map: <a href="https://code.highcharts.com/mapdata/custom/world-highres.js">World, Miller projection, high resolution</a>'
-=======
     $('#container').highcharts('Map', {
 
         title : {
@@ -884,7 +865,6 @@ $(function () {
 
         subtitle : {
             text : 'Discover music of the world by clicking on a country...'
->>>>>>> 732435f35aafa2ee89ff00963f5672cdc9a6e3fe
         },
 
         mapNavigation: {
@@ -915,8 +895,4 @@ $(function () {
         }]
     });
 });
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 732435f35aafa2ee89ff00963f5672cdc9a6e3fe
