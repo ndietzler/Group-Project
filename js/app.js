@@ -907,8 +907,8 @@ $(function () {
                 }
             },
             dataLabels: {
-                enabled: true,
-                format: '{point.name}'
+                enabled: false,
+                //format: '{point.name}'
             }
         }]
     });
