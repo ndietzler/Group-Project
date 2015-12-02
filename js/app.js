@@ -1,18 +1,20 @@
 'use strict'
 
-var BASE_URL = 'http://developer.echonest.com/api/v4/';
+var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
 var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-		var request = BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' + '&format=json';
+		var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:somalia' + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
 		console.log(request)
 		$http.get(request)
 		.then(function(response) {
-			$scope.bio = response.data["response"]["status"]["version"];
-	    }) 
-}]);
+				console.log("...");
+				$scope.topHot = response.data;
+		}) 
+	}]);
 
 $(function(){
     $.getJSON('data/country.json', function(data) {
@@ -31,16 +33,13 @@ $(function(){
                     verticalAlign: 'bottom'
                 }
             },
-            // colorAxis: {
-            //     min: 0
-            // },
-            colors: ['#000000'],
 
+            colors: ['#000000'],
+            
             series : [{
                 data : data,
                 mapData: Highcharts.maps['custom/world-highres'],
                 joinBy: 'hc-key',
-                //name: 'Random data',
                 states: {
                     hover: {
                         color: '#BADA55'
@@ -48,23 +47,9 @@ $(function(){
                 },
                 dataLabels: {
                     enabled: false,
-                    format: '{point.name}'
                 }
             }]
         })
-
-        for (var i = 0; i < data.length; i++) {
-            var fullName = {point.name};
-            fullName = fullName.toLowerCase();
-            console.log(fullName);
-
-
-            // var countryName =;
-            // var newName = "value" + i;
-            // jsonObj.members.viewers[newUser] = newValue ;
-            // data[countryName] = newName;
-        }
-
     })
 });
 
