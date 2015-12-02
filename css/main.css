@@ -1,3 +1,19 @@
+body {
+	background-color: black;
+	color: white;
+	padding-top: 0px;
+	margin: 0px;
+}
+
+#topper{
+	background-color: #302f2f
+	margin-top: 0px;
+	padding: .25em;
+}
+h1 {
+	
+}
+
 #container {
     height: 500px; 
     min-width: 310px; 
