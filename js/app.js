@@ -892,9 +892,10 @@ $(function () {
             }
         },
 
-        colorAxis: {
-            min: 0
-        },
+        // colorAxis: {
+        //     min: 0
+        // },
+        colors: ['#000000'],
 
         series : [{
             data : data,
