@@ -18,14 +18,20 @@ var myApp = angular.module('WorldApp', [])
 		//}
 	}]);
 
-$(function(){
+$(document).ready(function(){
     $.getJSON('data/country.json', function(data) {
         $('#map').highcharts('Map', {
             title : {
+                style : {
+                    color : "white",
+                },
                 text : 'World Music'
             },
 
             subtitle : {
+                style : {
+                    color : "white",
+                },
                 text : 'Discover music of the world by clicking on a country...'
             },
 
@@ -35,28 +41,56 @@ $(function(){
                     verticalAlign: 'bottom'
                 }
             },
-            // colorAxis: {
-            //     min: 0
-            // },
-            colors: ['#000000'],
+
+            colors: ['#23CF5F '],
+
+            chart: {
+                backgroundColor: "#000000"
+            },
+            plotOptions:{
+                series:{
+                    point:{
+                        events:{
+                            click: function(){
+                                var fullName = this.name.toLowerCase();
+                                fullName = fullName.split(" ");
+                                if (fullName.length == 1) {
+                                    fullName = fullName[0];
+                                } else {
+                                    var urlName = '';
+                                    for (var i = 0; i < fullName.length; i++) {
+                                        urlName += fullName[i];
+                                        if (fullName[i + 1] != null) {
+                                            urlName += '+';
+                                        }
+                                    }
+                                    fullName = urlName;
+                                }
+                                console.log(fullName);
+                            }
+                        }
+                    }
+                }
+            },
 
             series : [{
                 data : data,
                 mapData: Highcharts.maps['custom/world-highres'],
                 joinBy: 'hc-key',
+
                 name: 'Random data',
+                borderColor: "#000000",
+
                 states: {
                     hover: {
-                        color: '#BADA55'
+                        color: '#F0FFFF'
                     }
                 },
                 dataLabels: {
                     enabled: false,
-                    //format: '{point.name}'
                 }
             }]
         })
     })
 });
-
 

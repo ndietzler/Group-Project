@@ -14,10 +14,12 @@
 	  <link rel="stylesheet" href="css/main.css">
 	</head>
 
-	<body>
+	<body id="body">
 		<div class="container" ng-app='WorldApp' ng-controller='WorldCtrl'>
+	  		<div id="topper">
+	  			<h1>World Map</h1>
+	  		</div>
 
-	  		<h1>World Map</h1>
 	  		<div id="map" class="hidden-xs"></div>
 	  		<tr>
 	  			<td>{{topHot}}</td>
