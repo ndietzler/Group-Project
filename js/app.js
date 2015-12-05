@@ -13,15 +13,18 @@ var myApp = angular.module('WorldApp', [])
 			console.log(request)
 			$http.get(request)
 			.then(function(response) {
-					console.log("...");
                     var names = [];//
                     $('#countryInfo table').html('<tr><th>Top 10 Artists</th></tr>');
-                    for (var i = 0; i < 10; i++) {
-                        var name = response.data["response"]["artists"][i]["name"];
-                        names.push(name);//
-                        $('#countryInfo table').append("<tr><td>" + name + "</td></tr>");
+                    var size = response.data['response']['artists'].length;
+                    if (size > 10) {
+                        size = 10;
                     }
-                    console.log(names);//
+                    if (response.data['response']['artists'] != []) {
+                        for (var i = 0; i < size; i++) {
+                            var name = response.data["response"]["artists"][i]["name"];
+                            $('#countryInfo table').append("<tr><td>" + name + "</td></tr>");
+                        }
+                    }
 			}) 
 		}
 	
