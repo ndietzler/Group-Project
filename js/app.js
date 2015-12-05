@@ -8,9 +8,9 @@ var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
 		//$scope.getHotArtists = function() {
-			var request1 = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:somalia' + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
-			console.log(request1)
-			$http.get(request1)
+			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:somalia' + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
+			console.log(request)
+			$http.get(request)
 			.then(function(response) {
 					console.log("...");
 					$scope.topHot = response.data;
