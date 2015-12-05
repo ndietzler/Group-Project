@@ -10,22 +10,15 @@ var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
 		$scope.getData = function(fullname) {
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
-			console.log(request)
 			$http.get(request)
 			.then(function(response) {
-					console.log("...");
-                    var names = [];//
-                    $('#countryInfo table').html('<tr><th>Top 10 Artists</th></tr>');
                     for (var i = 0; i < 10; i++) {
                         var name = response.data["response"]["artists"][i]["name"];
-                        names.push(name);//
-                        $('#countryInfo table').append("<tr><td>" + name + "</td></tr>");
+                        $('#top10').append("<p>" + (i + 1) + ". " + name + "</p>");
                     }
-                    console.log(names);//
 			}) 
 		}
 	
-
     $(document).ready(function(){
         $.getJSON('data/country.json', function(data) {
             $('#map').highcharts('Map', {
@@ -85,12 +78,24 @@ var myApp = angular.module('WorldApp', [])
                     }
                 },
 
+                tooltip: {
+                    backgroundColor: 'white',
+                    borderWidth: 1,
+                    shadow: false,
+                    useHTML: true,
+                    padding: 0,
+                    pointFormat: '<p id="top10"><strong>Top 10 Artists from {point.name}</strong></p>',
+                    positioner: function () {
+                        return { x: 0, y: 25 };
+                    }
+                },
+
                 series : [{
                     data : data,
                     mapData: Highcharts.maps['custom/world-highres'],
                     joinBy: 'hc-key',
 
-                    name: 'Random data',
+                    name: 'country',
                     borderColor: "#000000",
 
                     states: {
@@ -98,6 +103,9 @@ var myApp = angular.module('WorldApp', [])
                             color: '#F0FFFF'
                         }
                     },
+
+                    backgroundColor: 'white',
+
                     dataLabels: {
                         enabled: false,
                     }
