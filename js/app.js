@@ -1,8 +1,8 @@
 'use strict'
 
-var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+//var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
-var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
+//var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
 
@@ -12,12 +12,26 @@ var myApp = angular.module('WorldApp', [])
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
 			$http.get(request)
 			.then(function(response) {
-                    for (var i = 0; i < 10; i++) {
-                        var name = response.data["response"]["artists"][i]["name"];
-                        $('#top10').append("<p>" + (i + 1) + ". " + name + "</p>");
+                    $('#countryInfo table').html('<tr><th>Top 10 Artists</th></tr>');
+                    var size = response.data['response']['artists'].length;
+                    if (size > 10) {
+                        size = 10;
+                    }
+                    if (size != 0) {
+                        for (var i = 0; i < size; i++) {
+                            var name = response.data["response"]["artists"][i]["name"];
+                            $('#top10').append("<p>" + (i + 1) + ". " + name + "</p>");
+                        }
+                    } else {
+                        console.log("No top artists found.")
                     }
 			}) 
 		}
+
+        //$scope.artistBio = function(name) {
+            var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&results=3' + '&name=Coldplay' /*+ name*/ + '&format=json';
+            console.log(request);
+        //}
 	
     $(document).ready(function(){
         $.getJSON('data/country.json', function(data) {
