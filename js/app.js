@@ -1,8 +1,8 @@
 'use strict'
 
-var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+//var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
-var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
+//var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
 
@@ -19,14 +19,21 @@ var myApp = angular.module('WorldApp', [])
                     if (size > 10) {
                         size = 10;
                     }
-                    if (response.data['response']['artists'] != []) {
+                    if (size != 0) {
                         for (var i = 0; i < size; i++) {
                             var name = response.data["response"]["artists"][i]["name"];
                             $('#countryInfo table').append("<tr><td>" + name + "</td></tr>");
                         }
+                    } else {
+                        console.log("No top artists found.")
                     }
 			}) 
 		}
+
+        //$scope.artistBio = function(name) {
+            var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&results=3' + '&name=Coldplay' /*+ name*/ + '&format=json';
+            console.log(request);
+        //}
 	
 
     $(document).ready(function(){
