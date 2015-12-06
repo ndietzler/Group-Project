@@ -27,6 +27,16 @@ var myApp = angular.module('WorldApp', [])
                     }
 			}) 
 		}
+
+	var getCountryName = function(data) {
+		console.log(data);
+		$scope.countryData = data;
+	}
+
+
+
+
+    $.getJSON('data/countryNames.json').then(getCountryName);
 	
 
     $(document).ready(function(){
