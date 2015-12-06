@@ -36,12 +36,8 @@ var myApp = angular.module('WorldApp', [])
 	}
 
 
-
-
     $.getJSON('data/countryNames.json').then(getCountryName);
 	
-			})
-        } 
 
     // var calcGenreStats = function(response){
     //     var chartStats = [];
