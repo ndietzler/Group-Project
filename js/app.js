@@ -7,14 +7,14 @@ var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
 
 var myApp = angular.module('WorldApp', [])
-	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-		$scope.getData = function(fullname) {
+	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {	
+        $scope.getData = function(fullname) {
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
 			console.log(request)
 			$http.get(request)
 			.then(function(response) {
-                    console.log(response.data);
                     var size = response.data['response']['artists'].length;
+                    calcGenreStats(response.data);
                     if (size > 10) {
                         size = 10;
                     }
@@ -29,6 +29,46 @@ var myApp = angular.module('WorldApp', [])
                         console.log("No top artists found.")
                     }
 			}) 
+
+            var calcGenreStats = function(response){
+                var chartStats = tallyUp(response);
+                console.log(chartStats);     
+            }  
+
+            var tallyUp = function(response){
+                var chartStats = [];
+                var size = response["response"]["artists"].length;
+                for (var i = 0; i < size; i ++) {
+                    var name = response["response"]["artists"][i]["name"];
+                    request = ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json";
+                    $http.get(request).then(function(response){
+                        var listTermsSize = response.data["response"]["terms"].length;
+                        for (var j = 0; j < listTermsSize; j++) {
+                            var term = response.data["response"]["terms"][j].name;
+                            var freq = response.data["response"]["terms"][j].frequency;
+                            if (freq > 0.5){
+                                var found = false;
+                                for(var k = 0; k < chartStats.length; k++){
+                                    if(chartStats[k].name == term){
+                                        var newStat = chartStats[k].y + 1;
+                                        chartStats[k].y = newStat;   
+                                        found = true; 
+                                    }
+                                }
+                                if(!found) {
+                                    var data = {"name" : term, "y" : 1};
+                                    chartStats.push(data);
+                                }
+                                //console.log(chartStats);
+                            } 
+                        }
+                        //console.log(chartStats);
+                        //return chartStats;
+                    });
+                }
+                console.log(chartStats);
+
+            }
 		}
 
         //$scope.artistBio = function(name) {
