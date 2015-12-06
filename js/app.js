@@ -34,8 +34,6 @@ var myApp = angular.module('WorldApp', [])
 		console.log(data);
 		$scope.countryData = data;
 	}
-
-
     $.getJSON('data/countryNames.json').then(getCountryName);
 	
 
