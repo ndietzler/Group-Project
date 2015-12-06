@@ -92,8 +92,9 @@ var myApp = angular.module('WorldApp', [])
         })
     //}
 
-    $scope.top10Artists = function() {
-        var countryName = $scope.selectedCountry.name;
+    $scope.countryURL = function(country) {
+        var countryName = country.name;
+        console.log(country);
         var fullName = countryName.toLowerCase();
         fullName = fullName.split(" ");
         if (fullName.length == 1) {
@@ -111,7 +112,6 @@ var myApp = angular.module('WorldApp', [])
                 fullName = 'united+states';
             }
         }
-        //console.log(fullName);
         $scope.getData(fullName, countryName);
     }
 	
@@ -148,26 +148,8 @@ var myApp = angular.module('WorldApp', [])
                     series:{
                         point:{
                             events:{
-                                click: function(){
-                                    fullName = this.name.toLowerCase();
-                                    fullName = fullName.split(" ");
-                                    if (fullName.length == 1) {
-                                        fullName = fullName[0];
-                                    } else {
-                                        var urlName = '';
-                                        for (var i = 0; i < fullName.length; i++) {
-                                            urlName += fullName[i];
-                                            if (fullName[i + 1] != null) {
-                                                urlName += '+';
-                                            }
-                                        }
-                                        fullName = urlName;
-                                        if (fullName == 'united+states+of+america') {
-                                            fullName = 'united+states';
-                                        }
-                                    }
-                                    //console.log(fullName);
-                                    $scope.getData(fullName, this.name);
+                                click: function () {
+                                    $scope.countryURL(this);
                                 }
                             }
                         }
