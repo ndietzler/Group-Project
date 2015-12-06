@@ -12,17 +12,19 @@ var myApp = angular.module('WorldApp', [])
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
 			$http.get(request)
 			.then(function(response) {
-                    $('#countryInfo table').html('<tr><th>Top 10 Artists</th></tr>');
+                    //$('#countryInfo table').html('<tr><th>Top 10 Artists:</th></tr>');
                     var size = response.data['response']['artists'].length;
                     if (size > 10) {
                         size = 10;
                     }
                     if (size != 0) {
+                        $('#countryInfo').html("<h2>Top 10 Artists:</h2>");
                         for (var i = 0; i < size; i++) {
                             var name = response.data["response"]["artists"][i]["name"];
-                            $('#top10').append("<p>" + (i + 1) + ". " + name + "</p>");
+                            $('#countryInfo').append("<p>" + (i + 1) + ". " + name + "</p>");
                         }
                     } else {
+                        $('#countryInfo').append("<>");
                         console.log("No top artists found.")
                     }
 			}) 
@@ -92,18 +94,6 @@ var myApp = angular.module('WorldApp', [])
                     }
                 },
 
-                tooltip: {
-                    backgroundColor: 'white',
-                    borderWidth: 1,
-                    shadow: false,
-                    useHTML: true,
-                    padding: 0,
-                    pointFormat: '<p id="top10"><strong>Top 10 Artists from {point.name}</strong></p>',
-                    positioner: function () {
-                        return { x: 0, y: 25 };
-                    }
-                },
-
                 series : [{
                     data : data,
                     mapData: Highcharts.maps['custom/world-highres'],
@@ -125,7 +115,7 @@ var myApp = angular.module('WorldApp', [])
                     }
                 }]
             })
-        })
+        }) 
     });
 }]);
 
