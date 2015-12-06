@@ -9,10 +9,15 @@ var fullName = "";
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
 		$scope.getData = function(fullname) {
-			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss&bucket=genre" + '&format=json';
+			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
+			console.log(request)
 			$http.get(request)
 			.then(function(response) {
+<<<<<<< HEAD
                     //$('#countryInfo table').html('<tr><th>Top 10 Artists:</th></tr>');
+=======
+                    //$('#countryInfo table').html('<tr><th>Top 10 Artists</th></tr>');
+>>>>>>> e9d586f900d0e9f24d9d440a6107d4e680a31b45
                     var size = response.data['response']['artists'].length;
                     if (size > 10) {
                         size = 10;
@@ -31,8 +36,24 @@ var myApp = angular.module('WorldApp', [])
 		}
 
         //$scope.artistBio = function(name) {
-            var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&results=3' + '&name=Coldplay' /*+ name*/ + '&format=json';
+            var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' /*+ name*/ + '&format=json';
             console.log(request);
+            $http.get(request)
+            .then(function(response) {
+                var count = 0;
+                var size = response.data['response']['biographies'].length
+                for (var i = 0; i < size; i++) {
+                    if (response.data['response']['biographies'][i]['text'].length >= 1000 && count == 0) {
+                        $('#bio').html('<h1>Adele<h1>\n<h3>Biograghy</h3>') 
+                        $('#bio').append('<p>' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
+                        $('#bio').append('\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.")
+                        count = 1;
+                    } 
+                    if (response.data['response']['biographies'][i]['text'].length < 1000 && count == 0) {
+                        $('#bio').html('<h1>Twyla<h1>\n<h3>Biograghy</h3>\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.");
+                    }
+                }
+            })
         //}
 	
     $(document).ready(function(){
