@@ -30,21 +30,3 @@ body {
     text-align: center;
     color: gray;
 }
-
-/*@media screen and (min-width: 768px) {
-	#map {
-	    height: 500px; 
-	    min-width: 768px; 
-	    max-width: 1500px;
-	    margin: 0 auto;
-	}
-
-}
-
-/*@media screen and (max-width: 768px) {
-	.select {
-		display: none;
-	}
-}
-	 
-*/
