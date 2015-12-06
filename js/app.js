@@ -13,11 +13,7 @@ var myApp = angular.module('WorldApp', [])
 			console.log(request)
 			$http.get(request)
 			.then(function(response) {
-<<<<<<< HEAD
-                    //$('#countryInfo table').html('<tr><th>Top 10 Artists:</th></tr>');
-=======
-                    //$('#countryInfo table').html('<tr><th>Top 10 Artists</th></tr>');
->>>>>>> e9d586f900d0e9f24d9d440a6107d4e680a31b45
+                    console.log(response.data);
                     var size = response.data['response']['artists'].length;
                     if (size > 10) {
                         size = 10;
