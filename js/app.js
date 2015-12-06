@@ -8,7 +8,7 @@ var fullName = "";
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-        $scope.getData = function(fullname) {
+        $scope.getData = function(fullname, country) {
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
 			console.log(request)
 			$http.get(request)
@@ -19,7 +19,7 @@ var myApp = angular.module('WorldApp', [])
                         size = 10;
                     }
                     if (size != 0) {
-                        $('#countryInfo').html("<h2>Top 10 Artists:</h2>");
+                        $('#countryInfo').html("<h2>Top 10 Artists from " +  country + ":</h2>");
                         for (var i = 0; i < size; i++) {
                             var name = response.data["response"]["artists"][i]["name"];
                             $('#countryInfo').append("<p>" + (i + 1) + ". " + name + "</p>");
@@ -31,7 +31,6 @@ var myApp = angular.module('WorldApp', [])
 		}
 
 	var getCountryName = function(data) {
-		console.log(data);
 		$scope.countryData = data;
 	}
     $.getJSON('data/countryNames.json').then(getCountryName);
@@ -74,7 +73,7 @@ var myApp = angular.module('WorldApp', [])
 
     //$scope.artistBio = function(name) {
         var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' /*+ name*/ + '&format=json';
-        console.log(request);
+        //console.log(request);
         $http.get(request)
         .then(function(response) {
             var count = 0;
@@ -92,6 +91,29 @@ var myApp = angular.module('WorldApp', [])
             }
         })
     //}
+
+    $scope.top10Artists = function() {
+        var countryName = $scope.selectedCountry.name;
+        var fullName = countryName.toLowerCase();
+        fullName = fullName.split(" ");
+        if (fullName.length == 1) {
+            fullName = fullName[0];
+        } else {
+            var urlName = '';
+            for (var i = 0; i < fullName.length; i++) {
+                urlName += fullName[i];
+                if (fullName[i + 1] != null) {
+                    urlName += '+';
+                }
+            }
+            fullName = urlName;
+            if (fullName == 'united+states+of+america') {
+                fullName = 'united+states';
+            }
+        }
+        //console.log(fullName);
+        $scope.getData(fullName, countryName);
+    }
 	
     $(document).ready(function(){
         $.getJSON('data/country.json', function(data) {
@@ -144,8 +166,8 @@ var myApp = angular.module('WorldApp', [])
                                             fullName = 'united+states';
                                         }
                                     }
-                                    console.log(fullName);
-                                    $scope.getData(fullName);
+                                    //console.log(fullName);
+                                    $scope.getData(fullName, this.name);
                                 }
                             }
                         }
