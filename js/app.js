@@ -31,45 +31,39 @@ var myApp = angular.module('WorldApp', [])
 			}) 
 
             var calcGenreStats = function(response){
-                var chartStats = tallyUp(response);
-                console.log(chartStats);     
-            }  
-
-            var tallyUp = function(response){
                 var chartStats = [];
+                var requests = Array();
                 var size = response["response"]["artists"].length;
                 for (var i = 0; i < size; i ++) {
                     var name = response["response"]["artists"][i]["name"];
-                    request = ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json";
-                    $http.get(request).then(function(response){
-                        var listTermsSize = response.data["response"]["terms"].length;
-                        for (var j = 0; j < listTermsSize; j++) {
-                            var term = response.data["response"]["terms"][j].name;
-                            var freq = response.data["response"]["terms"][j].frequency;
-                            if (freq > 0.5){
-                                var found = false;
-                                for(var k = 0; k < chartStats.length; k++){
-                                    if(chartStats[k].name == term){
-                                        var newStat = chartStats[k].y + 1;
-                                        chartStats[k].y = newStat;   
-                                        found = true; 
-                                    }
-                                }
-                                if(!found) {
-                                    var data = {"name" : term, "y" : 1};
-                                    chartStats.push(data);
-                                }
-                                //console.log(chartStats);
-                            } 
-                        }
-                        //console.log(chartStats);
-                        //return chartStats;
-                    });
+                    requests.push(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
                 }
-                console.log(chartStats);
-
-            }
-		}
+                var defer = $http.apply(requests);
+                defer.done(function(){
+                    $.each(function(index,response){
+                        console.log("hey");
+                    //     var listTermsSize = response.data["response"]["terms"].length;
+                    //     for (var j = 0; j < listTermsSize; j++) {
+                    //         var term = response.data["response"]["terms"][j].name;
+                    //         var freq = response.data["response"]["terms"][j].frequency;
+                    //         if (freq > 0.5){
+                    //             var found = false;
+                    //             for(var k = 0; k < chartStats.length; k++){
+                    //                 if(chartStats[k].name == term){
+                    //                     var newStat = chartStats[k].y + 1;
+                    //                     chartStats[k].y = newStat;   
+                    //                     found = true; 
+                    //                 }
+                    //             }
+                    //             if(!found) {
+                    //                 var data = {"name" : term, "y" : 1};
+                    //                 chartStats.push(data);
+                    //             }
+                    //             //console.log(chartStats);
+                    //         }                         
+                    });
+                });
+            }  
 
         //$scope.artistBio = function(name) {
             var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' /*+ name*/ + '&format=json';
