@@ -13,10 +13,6 @@ body {
 	width: 100%;
 }
 
-h1 {
-	
-}
-
 #container {
     height: 500px; 
     min-width: 310px; 
@@ -24,7 +20,10 @@ h1 {
     margin: 0 auto; 
 }
 
-/*@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");*/
+#top10 {
+	min-height: 250px;
+	min-width: 250px;
+}
 
 .loading {
     margin-top: 10em;
@@ -32,11 +31,11 @@ h1 {
     color: gray;
 }
 
-@media screen and (min-width: 768px) {
+/*@media screen and (min-width: 768px) {
 	#map {
 	    height: 500px; 
 	    min-width: 768px; 
-	    max-width: 1500px; 
+	    max-width: 1500px;
 	    margin: 0 auto;
 	}
 
@@ -46,4 +45,6 @@ h1 {
 	.select {
 		display: none;
 	}
-}*/
+}
+	 
+*/
