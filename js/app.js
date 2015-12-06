@@ -25,7 +25,7 @@ var myApp = angular.module('WorldApp', [])
                             $('#countryInfo').append("<p>" + (i + 1) + ". " + name + "</p>");
                         }
                     } else {
-                        $('#countryInfo').append("<p>No top artists found.</p>");
+                        $('#countryInfo').html("<p>No top artists found.</p>");
                     }
 			}) 
 		}

@@ -23,13 +23,13 @@
   			<div class="hidden-sm hidden-md hidden-lg">
   				<label>Select a country:</label>
   				<select name="countryData" ng-model="selectedCountry" ng-options="country as country.name for country in countryData">{{country}}</select>
+  				<button class="btn btn-primary" type="submit" ng-click="countryURL(selectedCountry)">Search</button>
 
   			</div>
 
 	  		<div class="row">
 		  		<div id="map" class="hidden-xs col-sm-10 col-md-10 col-lg-10"></div>
 		  		<div id="countryInfo" class="container col-xs-12 col-sm-2 col-md-2 col-lg-2">
-		  		<button class="btn btn-primary hidden-sm hidden-md hidden-lg" type="submit" ng-click="countryURL(selectedCountry)">Search</button>
 			</div>
 
   		</div>
