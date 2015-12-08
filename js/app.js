@@ -14,7 +14,7 @@ var myApp = angular.module('WorldApp', [])
 			$http.get(request)
 			.then(function(response) {
                     var size = response.data['response']['artists'].length;
-                    calcGenreStats(response.data);
+                    //calcGenreStats(response.data);
                     if (size > 10) {
                         size = 10;
                     }
@@ -36,6 +36,7 @@ var myApp = angular.module('WorldApp', [])
         $scope.show = true;
         var name = $(event.target).text();
         $scope.artistName = name;
+        artistBio(name);
     }
 
 	var getCountryName = function(data) {
@@ -44,63 +45,81 @@ var myApp = angular.module('WorldApp', [])
     $http.get('data/countryNames.json').then(getCountryName);
 	
 
-    var calcGenreStats = function(response){
-        var chartStats = [];
-        var requests = Array();
-        var size = response["response"]["artists"].length;
-        for (var i = 0; i < size; i ++) {
-            var name = response["response"]["artists"][i]["name"];
-            requests.push(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
-            console.log(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
-        }
-        $q.all(requests).then(function(bigReq){
-            $http.get(bigReq).then(function(bigResponse){
-                for(artistList in bigResponse){
-                var listTermsSize = artistList.data["response"]["terms"].length;          
-                    for (var j = 0; j < listTermsSize; j++) {
-                        var term = response.data["response"]["terms"][j].name;
-                        var freq = response.data["response"]["terms"][j].frequency;
-                        if (freq > 0.5){
-                            var found = false;
-                            for(var k = 0; k < chartStats.length; k++){
-                                if(chartStats[k].name == term){
-                                    var newStat = chartStats[k].y + 1;
-                                    chartStats[k].y = newStat;   
-                                    found = true; 
-                                }
-                            }
-                            if(!found) {
-                                var data = {"name" : term, "y" : 1};
-                                chartStats.push(data);
-                            }
-                            //console.log(chartStats);
-                        }   
-                    }
-                }                   
-            });
-        });
-    }  
+    // var calcGenreStats = function(response){
+    //     var chartStats = [];
+    //     var requests = Array();
+    //     var size = response["response"]["artists"].length;
+    //     for (var i = 0; i < size; i ++) {
+    //         var name = response["response"]["artists"][i]["name"];
+    //         requests.push(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
+    //         console.log(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
+    //     }
+    //     $q.all(requests).then(function(bigReq){
+    //         $http.get(bigReq).then(function(bigResponse){
+    //             for(artistList in bigResponse){
+    //             var listTermsSize = artistList.data["response"]["terms"].length;          
+    //                 for (var j = 0; j < listTermsSize; j++) {
+    //                     var term = response.data["response"]["terms"][j].name;
+    //                     var freq = response.data["response"]["terms"][j].frequency;
+    //                     if (freq > 0.5){
+    //                         var found = false;
+    //                         for(var k = 0; k < chartStats.length; k++){
+    //                             if(chartStats[k].name == term){
+    //                                 var newStat = chartStats[k].y + 1;
+    //                                 chartStats[k].y = newStat;   
+    //                                 found = true; 
+    //                             }
+    //                         }
+    //                         if(!found) {
+    //                             var data = {"name" : term, "y" : 1};
+    //                             chartStats.push(data);
+    //                         }
+    //                         //console.log(chartStats);
+    //                     }   
+    //                 }
+    //             }                   
+    //         });
+    //     });
+    // }  
 
-    //$scope.artistBio = function(name) {
-        var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=Adele' /*+ name*/ + '&format=json';
-        //console.log(request);
+    var artistBio = function(name) {
+        var artistName = eliminateSpace(name);
+        console.log(artistName);
+        var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
         $http.get(request)
         .then(function(response) {
             var count = 0;
             var size = response.data['response']['biographies'].length
             for (var i = 0; i < size; i++) {
                 if (response.data['response']['biographies'][i]['text'].length >= 1000 && count == 0) {
-                    $('#bio').html('<h1>Adele<h1>\n<h3>Biograghy</h3>') 
-                    $('#bio').append('<p>' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
-                    $('#bio').append('\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.")
+                    angular.element($('#bio')).html('<h1>' + name + '<h1>\n<h3>Biograghy</h3>') 
+                    angular.element($('#bio')).append('<p>' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
+                    angular.element($('#bio')).append('\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.")
                     count = 1;
                 } 
                 if (response.data['response']['biographies'][i]['text'].length < 1000 && count == 0) {
-                    $('#bio').html('<h1>Twyla<h1>\n<h3>Biograghy</h3>\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.");
+                    angular.element($('#bio')).html('<h1>Twyla<h1>\n<h3>Biograghy</h3>\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.");
                 }
             }
         })
-    //}
+    }
+
+    var eliminateSpace = function(name) {
+        name = name.split(" ");
+        if (name.length == 1) {
+            name = name[0];
+        } else {
+            var newName = '';
+            for (var i = 0; i < name.length; i++) {
+                newName += name[i];
+                if (name[i + 1] != null) {
+                    newName += '+';
+                }
+            }
+            name = newName;
+        }
+        return name;
+    }
 
     $scope.countryURL = function(country) {
         var countryName = country.name;
