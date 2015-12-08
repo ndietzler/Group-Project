@@ -10,7 +10,9 @@ body {
 	background-color: #302f2f;
 	margin-top: 0px;
 	padding: .25em;
-	width: 100%;
+	width: 100vw;
+	padding-left: 2em;
+	margin-bottom: 5em;
 }
 
 #container {
