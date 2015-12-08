@@ -8,7 +8,7 @@ var fullName = "";
 var show = false;
 
 var myApp = angular.module('WorldApp', [])
-	.controller('WorldCtrl', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
+	.controller('WorldCtrl', ['$scope', '$http', '$compile', '$q', function($scope, $http, $compile, $q) {
         $scope.getData = function(fullname, country) {
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
 			$http.get(request)
@@ -41,12 +41,10 @@ var myApp = angular.module('WorldApp', [])
         artistNews(name);
     }
 
-	var getCountryName = function(data) {
-		$scope.countryData = data;
-	}
-    $.getJSON('data/countryNames.json').then(getCountryName);
+    $http.get('data/countryNames.json').success(function(data) {
+       $scope.countryData = data;
+    });
 	
-
     // var calcGenreStats = function(response){
     //     var chartStats = [];
     //     var requests = Array();
