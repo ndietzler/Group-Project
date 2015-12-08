@@ -5,12 +5,12 @@ var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
 //var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
+var show = false;
 
 var myApp = angular.module('WorldApp', [])
-	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
+	.controller('WorldCtrl', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
         $scope.getData = function(fullname, country) {
 			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
-			console.log(request)
 			$http.get(request)
 			.then(function(response) {
                     var size = response.data['response']['artists'].length;
@@ -19,16 +19,24 @@ var myApp = angular.module('WorldApp', [])
                         size = 10;
                     }
                     if (size != 0) {
-                        $('#countryInfo').html("<h2>Top 10 Artists from " +  country + ":</h2>");
+                        angular.element($('#countryInfo')).html("<h2>Top 10 Artists from " + country + ":</h2>");
                         for (var i = 0; i < size; i++) {
                             var name = response.data["response"]["artists"][i]["name"];
-                            $('#countryInfo').append("<p>" + (i + 1) + ". " + name + "</p>");
+                            var strElm = "<p>" + (i + 1) + ". " + "<a ng-click=artistInfo()>" + name + "</a>" + "</p>";
+                            var compiledHtml = $compile(strElm)($scope);
+                            angular.element($('#countryInfo')).append(compiledHtml);
                         }
                     } else {
-                        $('#countryInfo').html("<p>No top artists found.</p>");
+                        angular.element($('#countryInfo')).html("<p>No top artists found.</p>");
                     }
-			}) 
+			})
 		}
+   
+    $scope.artistInfo = function() {
+        $scope.show = true;
+        var name = $(event.target).text();
+        $scope.artistName = name;
+    }
 
 	var getCountryName = function(data) {
 		$scope.countryData = data;
@@ -94,7 +102,6 @@ var myApp = angular.module('WorldApp', [])
 
     $scope.countryURL = function(country) {
         var countryName = country.name;
-        console.log(country);
         var fullName = countryName.toLowerCase();
         fullName = fullName.split(" ");
         if (fullName.length == 1) {
