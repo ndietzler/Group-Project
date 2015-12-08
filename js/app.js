@@ -37,12 +37,14 @@ var myApp = angular.module('WorldApp', [])
         var name = $(event.target).text();
         $scope.artistName = name;
         artistBio(name);
+        //artistImage(name);
+        artistNews(name);
     }
 
 	var getCountryName = function(data) {
 		$scope.countryData = data;
 	}
-    $http.get('data/countryNames.json').then(getCountryName);
+    $.getJSON('data/countryNames.json').then(getCountryName);
 	
 
     // var calcGenreStats = function(response){
@@ -84,7 +86,6 @@ var myApp = angular.module('WorldApp', [])
 
     var artistBio = function(name) {
         var artistName = eliminateSpace(name);
-        console.log(artistName);
         var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
         $http.get(request)
         .then(function(response) {
@@ -103,6 +104,40 @@ var myApp = angular.module('WorldApp', [])
             }
         })
     }
+
+    var artistNews = function(name) {
+        var artistName = eliminateSpace(name);
+        var request = ECHO_NEST_BASE_URL + 'artist/news?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
+        $http.get(request)
+        .then(function(response) {
+            var size = response.data['response']['news'].length
+            if (size > 0) {
+                angular.element($('#news')).html('<h3>News Articles</h3>');
+                for (var i = 0; i < size; i++) {
+                    angular.element($('#news')).append('<table><tr>' + '<a href =' + response.data['response']['news'][i]['url'] + '>' + response.data['response']['news'][i]['url'] + '</a></tr></table>');
+                }
+            } 
+            else {
+                angular.element($('#news')).html('<h3>News Articles</h3>\n<p>No news articles are available at this time.</p>');
+            }
+        })
+    }
+
+    // var artistImage = function(name) {
+    //     var artistName = eliminateSpace(name);
+    //     var request = ECHO_NEST_BASE_URL + 'artist/images?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
+    //     console.log(request);
+    //     $http.get(request)
+    //     .then(function(response) {
+    //         var size = response.data['response']['images'].length
+    //         if (size > 0) {
+    //             angular.element($('#pic')).html('<img src=>' + response.data['response']['images'][0]['url'] + '></img>');
+    //         } 
+    //         else {
+    //             angular.element($('#pic')).html('<h6>No picture is available.</h6>');
+    //         }
+    //     })
+    // }
 
     var eliminateSpace = function(name) {
         name = name.split(" ");
