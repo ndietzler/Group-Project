@@ -15,12 +15,12 @@
 	</head>
 
 	<body id="body">
-		<div class="container" ng-app='WorldApp' ng-controller='WorldCtrl'>
+		<div ng-app='WorldApp' ng-controller='WorldCtrl'>
 	  		<div id="topper">
 	  			<h1>World Map</h1>
 	  		</div>
 
-  			<div class="hidden-sm hidden-md hidden-lg">
+  			<div class="hidden-sm hidden-md hidden-lg container">
   				<label>Select a country:</label>
   				<select name="countryData" ng-model="selectedCountry" ng-options="country as country.name for country in countryData">{{country}}</select>
   				<button class="btn btn-primary" type="submit" ng-click="countryURL(selectedCountry)">Search</button>
@@ -32,7 +32,7 @@
 		  		<div id="countryInfo" class="container col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
 			</div>
 
-			<div id="artistBio">
+			<div class="container" id="artistBio">
 				<div id="bio"></div>
 				<div id="pic"></div>
 				<div id="news"></div>
