@@ -18,7 +18,7 @@ var myApp = angular.module('WorldApp', [])
                         size = 10;
                     }
                     if (size != 0) {
-                        angular.element($('#countryInfo')).html("<h2>Top 10 Artists from " + country + ":</h2>");
+                        angular.element($('#countryInfo')).html("<h2 id=top10>Top 10 Artists from " + country + ":</h2>");
                         for (var i = 0; i < size; i++) {
                             var name = response.data["response"]["artists"][i]["name"];
                             var strElm = "<p>" + (i + 1) + ". " + "<a ng-click=artistInfo()>" + name + "</a>" + "</p>";
@@ -53,12 +53,12 @@ var myApp = angular.module('WorldApp', [])
             for (var i = 0; i < size; i++) {
                 if (response.data['response']['biographies'][i]['text'].length >= 1000 && count == 0) {
                     angular.element($('#bio')).html('<h1>' + name + '<h1>\n<h3>Biograghy</h3>') 
-                    angular.element($('#bio')).append('<p>' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
-                    angular.element($('#bio')).append('\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.")
+                    angular.element($('#bio')).append('<p class="bioBody">' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
+                    angular.element($('#bio')).append('\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
                     count = 1;
                 } 
                 if (response.data['response']['biographies'][i]['text'].length < 1000 && count == 0) {
-                    angular.element($('#bio')).html('<h1>Twyla<h1>\n<h3>Biograghy</h3>\n' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information.");
+                    angular.element($('#bio')).html('<h1>' + name + '<h1>\n<h3>Biograghy</h3>\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
                 }
             }
         })
@@ -77,11 +77,11 @@ var myApp = angular.module('WorldApp', [])
                     if (link.charAt(link.length - 1) == '/') {
                         link = link.substring(0, link.length - 1);
                     }
-                    angular.element($('#news')).append('<table><tr>' + '<a href =' + link + '>' + link + '</a></tr></table>');
+                    angular.element($('#news')).append('<table><tr>' + '<a class="bioBody" href =' + link + '>' + link + '</a></tr></table>');
                 }
             } 
             else {
-                angular.element($('#news')).html('<h3>News Articles</h3>\n<p>No news articles are available at this time.</p>');
+                angular.element($('#news')).html('<h3>News Articles</h3>\n<p class="bioBody">No news articles are available at this time.</p>');
             }
         })
     }
