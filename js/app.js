@@ -106,21 +106,9 @@ var myApp = angular.module('WorldApp', [])
     $scope.countryURL = function(country) {
         var countryName = country.name;
         var fullName = countryName.toLowerCase();
-        fullName = fullName.split(" ");
-        if (fullName.length == 1) {
-            fullName = fullName[0];
-        } else {
-            var urlName = '';
-            for (var i = 0; i < fullName.length; i++) {
-                urlName += fullName[i];
-                if (fullName[i + 1] != null) {
-                    urlName += '+';
-                }
-            }
-            fullName = urlName;
-            if (fullName == 'united+states+of+america') {
-                fullName = 'united+states';
-            }
+        fullName = eliminateSpace(fullName);
+        if (fullName == 'united+states+of+america') {
+            fullName = 'united+states';
         }
         $scope.getData(fullName, countryName);
     }
