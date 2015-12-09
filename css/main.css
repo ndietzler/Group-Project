@@ -64,8 +64,14 @@ h1, h2, h3, h4, h5, h6 {
 	}
  }
 
-@media screen and (max-width: 767px) {
+ @media screen and (min-width: 768px) {
   	#map {
-  		min-height: 1000px; 
+  		min-height: 600px; 
+  	}
+ }
+
+@media screen and (min-width: 998px) {
+  	#map {
+  		min-height: 700px; 
   	}
  }
