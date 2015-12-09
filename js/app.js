@@ -51,7 +51,7 @@ var myApp = angular.module('WorldApp', [])
         .then(function(response) {
             var count = 0;
             var size = response.data['response']['biographies'].length;
-            angular.element($('#bioTitle')).html('<h2>' + name + '<h2>');
+            angular.element($('#bioTitle')).html('<h2 id="personName">' + name + '<h2>');
             for (var i = 0; i < size; i++) {
                 if (response.data['response']['biographies'][i]['text'].length >= 1000 && count == 0) {
                     angular.element($('#bio')).html('<h3>Biograghy</h3>');
@@ -95,6 +95,7 @@ var myApp = angular.module('WorldApp', [])
         $http.get(request)
         .then(function(response) {
             var size = response.data['response']['songs'].length;
+            console.log(size);
             if (size > 0) {
                 angular.element($('#songs')).html('<h3>Trending Songs</h3>');
                 for (var i = 0; i < size; i++) {
@@ -121,7 +122,7 @@ var myApp = angular.module('WorldApp', [])
             var id = response.data['response']['songs'][0]['tracks'][0]['foreign_id'];
             var url = 'http://embed.spotify.com/?url=' + id;
             angular.element($('#play')).html('<p></p>');
-            angular.element($('#play')).html('<iframe src=' + url + ' width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
+            angular.element($('#play')).html('<iframe src=' + url + ' width="400" height="480" frameborder="0" allowtransparency="true"></iframe>');
         })
     }
 
