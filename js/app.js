@@ -2,7 +2,7 @@
 
 //var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
-var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
+//var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
 var showBio = false;
