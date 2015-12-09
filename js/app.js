@@ -1,11 +1,10 @@
 'use strict'
 
-//var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
-//var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
+var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
-var show = false;
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', '$compile', '$q', function($scope, $http, $compile, $q) {
@@ -32,11 +31,11 @@ var myApp = angular.module('WorldApp', [])
 		}
    
     $scope.artistInfo = function() {
-        $scope.show = true;
         var name = $(event.target).text();
         $scope.artistName = name;
         artistBio(name);
         artistNews(name);
+        artistSongs(name);
     }
 
     $http.get('data/countryNames.json').success(function(data) {
@@ -49,16 +48,19 @@ var myApp = angular.module('WorldApp', [])
         $http.get(request)
         .then(function(response) {
             var count = 0;
-            var size = response.data['response']['biographies'].length
+            var size = response.data['response']['biographies'].length;
+            angular.element($('#bioTitle')).html('<h2>' + name + '<h2>');
             for (var i = 0; i < size; i++) {
                 if (response.data['response']['biographies'][i]['text'].length >= 1000 && count == 0) {
-                    angular.element($('#bio')).html('<h1>' + name + '<h1>\n<h3>Biograghy</h3>') 
+                    // angular.element($('#bio')).html('<h2>' + name + '<h2>\n<h3>Biograghy</h3>') 
+                    angular.element($('#bio')).html('<h3>Biograghy</h3>');
                     angular.element($('#bio')).append('<p class="bioBody">' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
                     angular.element($('#bio')).append('\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
                     count = 1;
                 } 
                 if (response.data['response']['biographies'][i]['text'].length < 1000 && count == 0) {
-                    angular.element($('#bio')).html('<h1>' + name + '<h1>\n<h3>Biograghy</h3>\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
+                    // angular.element($('#bio')).html('<h1>' + name + '<h1>\n<h3>Biograghy</h3>\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
+                    angular.element($('#bio')).html('<h3>Biograghy</h3>\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
                 }
             }
         })
@@ -83,6 +85,43 @@ var myApp = angular.module('WorldApp', [])
             else {
                 angular.element($('#news')).html('<h3>News Articles</h3>\n<p class="bioBody">No news articles are available at this time.</p>');
             }
+        })
+    }
+
+    var artistSongs = function(name) {
+        name = eliminateSpace(name.toLowerCase());
+        var request = ECHO_NEST_BASE_URL + 'artist/songs?' + 'api_key=' + API_KEY + '&name=' + name + '&format=json' + '&results=15';
+        console.log(request);
+        $http.get(request)
+        .then(function(response) {
+            var size = response.data['response']['songs'].length;
+            if (size > 0) {
+                angular.element($('#songs')).html('<h3>Trending Songs</h3>');
+                for (var i = 0; i < size; i++) {
+                    var title = response.data['response']['songs'][i]['title'];
+                    var title2 = eliminateSpace(title.toLowerCase());
+                    var strElm = '<p class="bioBody">' + (i + 1) + '. ' + '<a class=' + name + ' id=' + title2 +' ng-click=playSong()>' + title + '</a></p>';
+                    var compiledHtml = $compile(strElm)($scope);
+                    angular.element($('#songs')).append(compiledHtml);
+                }
+            } 
+            else {
+                angular.element($('#songs')).html('<h3>Trending Songs</h3>\n<p class="bioBody">No songs can be provided at this time.</p>');
+            }
+        })
+    }
+
+    $scope.playSong = function() {
+        var title = $(event.target).attr('id');
+        var name = $(event.target).attr('class');
+        var request = ECHO_NEST_BASE_URL + 'song/search?' + 'api_key=' + API_KEY + '&format=json&results=1&title=' + title + '&artist=' + name + '&bucket=id:spotify&bucket=tracks&limit=true';
+        console.log(request);
+        $http.get(request)
+        .then(function(response) {
+            var id = response.data['response']['songs'][0]['tracks'][0]['foreign_id'];
+            var url = 'http://embed.spotify.com/?url=' + id;
+            angular.element($('#play')).html('<p></p>');
+            angular.element($('#play')).html('<iframe src=' + url + ' width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
         })
     }
 
