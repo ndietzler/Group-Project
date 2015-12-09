@@ -1,10 +1,11 @@
 'use strict'
 
-var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
+//var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
 var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
+var showBio = false;
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', '$compile', '$q', function($scope, $http, $compile, $q) {
@@ -33,6 +34,7 @@ var myApp = angular.module('WorldApp', [])
     $scope.artistInfo = function() {
         var name = $(event.target).text();
         $scope.artistName = name;
+        $scope.showBio = true;
         artistBio(name);
         artistNews(name);
         artistSongs(name);
@@ -141,6 +143,7 @@ var myApp = angular.module('WorldApp', [])
     }
 
     $scope.countryURL = function(country) {
+        $scope.showBio = false;
         var countryName = country.name;
         var fullName = countryName.toLowerCase();
         fullName = eliminateSpace(fullName);
