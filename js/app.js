@@ -94,8 +94,8 @@ var myApp = angular.module('WorldApp', [])
         console.log(request);
         $http.get(request)
         .then(function(response) {
+            angular.element($('#play')).html('<p>Select a song, click play, and login with spotify to listen.</p>');
             var size = response.data['response']['songs'].length;
-            console.log(size);
             if (size > 0) {
                 angular.element($('#songs')).html('<h3>Trending Songs</h3>');
                 for (var i = 0; i < size; i++) {
@@ -121,7 +121,6 @@ var myApp = angular.module('WorldApp', [])
         .then(function(response) {
             var id = response.data['response']['songs'][0]['tracks'][0]['foreign_id'];
             var url = 'http://embed.spotify.com/?url=' + id;
-            angular.element($('#play')).html('<p></p>');
             angular.element($('#play')).html('<iframe src=' + url + ' width="400" height="480" frameborder="0" allowtransparency="true"></iframe>');
         })
     }
