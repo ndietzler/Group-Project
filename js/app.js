@@ -14,7 +14,6 @@ var myApp = angular.module('WorldApp', [])
 			$http.get(request)
 			.then(function(response) {
                     var size = response.data['response']['artists'].length;
-                    //calcGenreStats(response.data);
                     if (size > 10) {
                         size = 10;
                     }
@@ -45,42 +44,6 @@ var myApp = angular.module('WorldApp', [])
        $scope.countryData = data;
     });
 	
-    // var calcGenreStats = function(response){
-    //     var chartStats = [];
-    //     var requests = Array();
-    //     var size = response["response"]["artists"].length;
-    //     for (var i = 0; i < size; i ++) {
-    //         var name = response["response"]["artists"][i]["name"];
-    //         requests.push(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
-    //         console.log(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
-    //     }
-    //     $q.all(requests).then(function(bigReq){
-    //         $http.get(bigReq).then(function(bigResponse){
-    //             for(artistList in bigResponse){
-    //             var listTermsSize = artistList.data["response"]["terms"].length;          
-    //                 for (var j = 0; j < listTermsSize; j++) {
-    //                     var term = response.data["response"]["terms"][j].name;
-    //                     var freq = response.data["response"]["terms"][j].frequency;
-    //                     if (freq > 0.5){
-    //                         var found = false;
-    //                         for(var k = 0; k < chartStats.length; k++){
-    //                             if(chartStats[k].name == term){
-    //                                 var newStat = chartStats[k].y + 1;
-    //                                 chartStats[k].y = newStat;   
-    //                                 found = true; 
-    //                             }
-    //                         }
-    //                         if(!found) {
-    //                             var data = {"name" : term, "y" : 1};
-    //                             chartStats.push(data);
-    //                         }
-    //                         //console.log(chartStats);
-    //                     }   
-    //                 }
-    //             }                   
-    //         });
-    //     });
-    // }  
 
     var artistBio = function(name) {
         var artistName = eliminateSpace(name);
@@ -240,6 +203,4 @@ var myApp = angular.module('WorldApp', [])
             })
         }) 
     });
-}]);        
-        
-
+}]);
