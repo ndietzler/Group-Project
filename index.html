@@ -21,9 +21,13 @@
 	  		</div>
 
   			<div class="hidden-sm hidden-md hidden-lg container">
-  				<label>Select a country:</label>
-  				<select name="countryData" ng-model="selectedCountry" ng-options="country as country.name for country in countryData">{{country}}</select>
-  				<button class="btn btn-primary" type="submit" ng-click="countryURL(selectedCountry)">Search</button>
+  				<div id="pickCountry">
+	  				<label><h4>Select a country:</h4></label>
+	  				<select name="countryData" ng-model="selectedCountry" ng-options="country as country.name for country in countryData">{{country}}</select>
+  				</div>
+  				<div id="button">
+  					<button class="btn btn-primary" type="submit" ng-click="countryURL(selectedCountry)">Search</button>
+  				</div>
 
   			</div>
 
