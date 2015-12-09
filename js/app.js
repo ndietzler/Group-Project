@@ -36,7 +36,6 @@ var myApp = angular.module('WorldApp', [])
         var name = $(event.target).text();
         $scope.artistName = name;
         artistBio(name);
-        //artistImage(name);
         artistNews(name);
     }
 
@@ -44,7 +43,6 @@ var myApp = angular.module('WorldApp', [])
        $scope.countryData = data;
     });
 	
-
     var artistBio = function(name) {
         var artistName = eliminateSpace(name);
         var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
@@ -75,7 +73,11 @@ var myApp = angular.module('WorldApp', [])
             if (size > 0) {
                 angular.element($('#news')).html('<h3>News Articles</h3>');
                 for (var i = 0; i < size; i++) {
-                    angular.element($('#news')).append('<table><tr>' + '<a href =' + response.data['response']['news'][i]['url'] + '>' + response.data['response']['news'][i]['url'] + '</a></tr></table>');
+                    var link = response.data['response']['news'][i]['url'];
+                    if (link.charAt(link.length - 1) == '/') {
+                        link = link.substring(0, link.length - 1);
+                    }
+                    angular.element($('#news')).append('<table><tr>' + '<a href =' + link + '>' + link + '</a></tr></table>');
                 }
             } 
             else {
@@ -83,22 +85,6 @@ var myApp = angular.module('WorldApp', [])
             }
         })
     }
-
-    // var artistImage = function(name) {
-    //     var artistName = eliminateSpace(name);
-    //     var request = ECHO_NEST_BASE_URL + 'artist/images?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
-    //     console.log(request);
-    //     $http.get(request)
-    //     .then(function(response) {
-    //         var size = response.data['response']['images'].length
-    //         if (size > 0) {
-    //             angular.element($('#pic')).html('<img src=>' + response.data['response']['images'][0]['url'] + '></img>');
-    //         } 
-    //         else {
-    //             angular.element($('#pic')).html('<h6>No picture is available.</h6>');
-    //         }
-    //     })
-    // }
 
     var eliminateSpace = function(name) {
         name = name.split(" ");
