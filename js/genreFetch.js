@@ -9,13 +9,10 @@ var startArrayFrom = 0;// out of 242 countries
 
 var myApp = angular.module('WorldApp', [])
 	.controller('WorldCtrl', ['$scope', '$http', function($scope, $http) {
-        
-        $scope.getData = function(fullname, country) {
-            $http.get('data/countryNames.json').then(function(data){
-                datum = data.data;
-                anotherGoddamnHelper();
-            })
-        }
+        $http.get('data/countryNames.json').then(function(data){
+            datum = data.data;
+            anotherGoddamnHelper();
+        })
 
         var anotherGoddamnHelper = function(){
             if(startArrayFrom < 243){//goes through all 242 countries or however many you want to specify.
@@ -33,7 +30,6 @@ var myApp = angular.module('WorldApp', [])
                     for (var i = 0; i < size; i ++) {
                         var name = response.data["response"]["artists"][i]["name"];
                         requests.push(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
-                        //console.log(ECHO_NEST_BASE_URL + "artist/terms?api_key="+ API_KEY + "&name=" + name + "&format=json");
                     }
                     var arrayIndex = 0;
                     var bigResponse = [];
@@ -83,92 +79,5 @@ var myApp = angular.module('WorldApp', [])
                 anotherGoddamnHelper()
             }
         }
-
-    $scope.countryURL = function(country) {
-        var countryName = country.name;
-        var fullName = countryName.toLowerCase();
-        fullName = fullName.split(" ");
-        if (fullName.length == 1) {
-            fullName = fullName[0];
-        } else {
-            var urlName = '';
-            for (var i = 0; i < fullName.length; i++) {
-                urlName += fullName[i];
-                if (fullName[i + 1] != null) {
-                    urlName += '+';
-                }
-            }
-            fullName = urlName;
-            if (fullName == 'united+states+of+america') {
-                fullName = 'united+states';
-            }
-        }
-        $scope.getData(fullName, countryName);
-    }
-	
-    $(document).ready(function(){
-        $.getJSON('data/country.json', function(data) {
-            $('#map').highcharts('Map', {
-                title : {
-                    style : {
-                        color : "white",
-                    },
-                    text : 'World Music'
-                },
-
-                subtitle : {
-                    style : {
-                        color : "white",
-                    },
-                    text : 'Discover music of the world by clicking on a country...'
-                },
-
-                mapNavigation: {
-                    enabled: true,
-                    buttonOptions: {
-                        verticalAlign: 'bottom'
-                    }
-                },
-
-                colors: ['#23CF5F '],
-
-                chart: {
-                    backgroundColor: "#000000"
-                },
-                plotOptions:{
-                    series:{
-                        point:{
-                            events:{
-                                click: function () {
-                                    $scope.countryURL(this);
-                                }
-                            }
-                        }
-                    }
-                },
-
-                series : [{
-                    data : data,
-                    mapData: Highcharts.maps['custom/world-highres'],
-                    joinBy: 'hc-key',
-
-                    name: 'country',
-                    borderColor: "#000000",
-
-                    states: {
-                        hover: {
-                            color: '#F0FFFF'
-                        }
-                    },
-
-                    backgroundColor: 'white',
-
-                    dataLabels: {
-                        enabled: false,
-                    }
-                }]
-            })
-        }) 
-    });
 }]);        
         

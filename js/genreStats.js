@@ -1,5 +1,4 @@
 'use strict'
-'use strict'
 Parse.initialize("H07TyKtDvsyQ7Q34Q3UxKYyHBTJx7iztp3PKL7oZ", "JctEP7G2KbdabHhbMsx7NTou0qFNcNDkjML8lWsu");
 var CountryGenreData = Parse.Object.extend("CountryGenreData");
 var CountryStats = Parse.Object.extend("CountryStats");
@@ -41,7 +40,7 @@ var myApp = angular.module('WorldApp', [])
                     console.log("Error: " + countryName + "not found");
                     index++;
                     countryQuery();
-                
+                }
             })
         }
     }
