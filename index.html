@@ -16,10 +16,9 @@
 
 	<body id="body">
 		<div ng-app='WorldApp' ng-controller='WorldCtrl'>
-			<div id="pieChart">
-			</div>		
+	
 	  		<div id="topper">
-	  			<h1>World Map</h1>
+	  			<h1>world wide jam discovery</h1>
 	  		</div>
 
   			<div class="hidden-sm hidden-md hidden-lg container">
@@ -33,10 +32,11 @@
 
   			</div>
 
-	  		<div class="row">
-		  		<div id="map" class="hidden-xs col-sm-8 col-md-9 col-lg-10"></div>
-		  		<div id="countryInfo" class="container col-xs-12 col-sm-4 col-md-3 col-lg-2"></div>
-			</div>	
+		  	<div id="map"> </div>
+		  	<div class="row">
+			  	<div id="pieChart" class="col-sm-6"></div>	
+			  	<div id="countryInfo" class="col-sm-6"></div>
+			</div>
 
 			<div class="container" id="artistBio" ng-show="showBio">
 				<div id="bioTitle"></div>

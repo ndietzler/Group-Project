@@ -72,9 +72,10 @@ var myApp = angular.module('WorldApp', [])
                 type: 'pie'
             },
             title: {
-                text: 'The most popular genres in ' + country,
+                text: 'Most Popular Genres',
                 style: {
-                    color: 'white'
+                    color: 'white',
+                    padding: 'none'
                 }
             },
             tooltip: {
@@ -219,7 +220,7 @@ var myApp = angular.module('WorldApp', [])
                     style : {
                         color : "white",
                     },
-                    text : 'World Music'
+                    text : ''
                 },
 
                 subtitle : {
