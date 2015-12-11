@@ -1,3 +1,4 @@
+//Retrieves cloud data, calculates maningful statistics and stores back in cloud in format HighCharts can read
 'use strict'
 Parse.initialize("H07TyKtDvsyQ7Q34Q3UxKYyHBTJx7iztp3PKL7oZ", "JctEP7G2KbdabHhbMsx7NTou0qFNcNDkjML8lWsu");
 var CountryGenreData = Parse.Object.extend("CountryGenreData");
@@ -17,6 +18,7 @@ var myApp = angular.module('WorldApp', [])
             countryQuery();
         })
 
+    //finds the countries genre data in the cloud
     var countryQuery = function(){
         console.log("Searching For #" + index);
         if(index < 243){
@@ -45,6 +47,7 @@ var myApp = angular.module('WorldApp', [])
         }
     }
 
+    //calculates countries statistics and stores them in new object in the cloud
     var calcStats = function(newObject, parseObject){
         var sampleSize = 0;
         var percentOther = 100;
@@ -54,6 +57,7 @@ var myApp = angular.module('WorldApp', [])
             sampleSize = sampleSize + genres[i].y; 
         }
         newObject.set("sampleSize" , sampleSize);
+        //Finds the proportion of the total genres this genre is
         for(var j = 0; j < genres.length; j++){
             var proportion = (genres[j].y / sampleSize) * 100;
             if (proportion > 5){
@@ -64,6 +68,7 @@ var myApp = angular.module('WorldApp', [])
         stats.push({"name": "Other", "y" : percentOther});
         newObject.set("pieData", stats);
         console.log(stats);
+        //Saves statistics in the cloud
         newObject.save(null, {
             success : function(){
                 console.log("Statistics Saved Successfully");

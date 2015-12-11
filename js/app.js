@@ -32,7 +32,7 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
 		})
 	}
    
-   // Genereates the information for a particular artist: their name, biography, news, and songs
+   // Generates the information for a particular artist: their name, biography, news, and songs
     $scope.artistInfo = function() {
         var name = $(event.target).text();
         $scope.artistName = name;
