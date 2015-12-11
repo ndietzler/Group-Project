@@ -26,18 +26,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #artistBio {
-	margin-top: 2em;
 	margin-bottom: 1em;
 	padding-bottom: 2em;
 }
 
 #artistBio .container {
-	margin-bottom: 2em;
 	border-radius: 10px;
 }
 
 #artistBio .container > div {
-	margin-top: 2em;
 	margin-bottom: 2em;
 	background-color: #292828;
 	padding: 1em;
@@ -50,7 +47,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 500px; 
     min-width: 310px; 
     max-width: 800px; 
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 #pickCountry, #button, #play {
@@ -88,8 +85,10 @@ a {
 
 .row {
 	background-color: #302f2f;
-	padding-top: 3em;
 	padding-bottom: 3em;
+}
+.bioBody{
+    word-wrap: break-word;
 }
 
 @media screen and (max-width: 767px) {
@@ -112,12 +111,14 @@ a {
   		margin-left: auto;
   		margin-right: auto;
   		width: 80%;
-  		margin-top: 3em;
-  		margin-bottom: 3em;
   	}
 
-	#play, #song {
-		margin-left: auto;
+  	#songs {
+  		margin-left: auto;
+  	}
+
+	#play {
+		margin-left: 20px;
 		margin-right: auto;
 	}
 }
