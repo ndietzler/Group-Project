@@ -241,7 +241,7 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
                     style : {
                         color : "white",
                     },
-                    text : 'Discover the Top 10 Trending Artists by clicking on any country...'
+                    text : 'Discover the Top 10 Trending Artists by clicking on their country of origin...'
                 },
 
                 mapNavigation: {
