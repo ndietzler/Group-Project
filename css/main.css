@@ -22,7 +22,6 @@ h1, h2, h3, h4, h5, h6 {
 	padding: .25em;
 	width: 100vw;
 	padding-left: 2em;
-	/*font-variant: small-caps;*/
 }
 
 #artistBio {
@@ -93,7 +92,6 @@ a {
 
 @media screen and (max-width: 767px) {
   	#countryInfo {
-		/*margin: 3em;*/
 		padding: 3em;
 		border-radius: 10px;
 	}
@@ -122,9 +120,3 @@ a {
 		margin-right: auto;
 	}
 }
-
-/*@media screen and (min-width: 998px) {
-  	#map {
-  		min-height: 700px; 
-  	}
- }*/

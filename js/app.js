@@ -228,7 +228,7 @@ var myApp = angular.module('WorldApp', [])
                     style : {
                         color : "white",
                     },
-                    text : 'Discover music of the world by clicking on a country...'
+                    text : 'Discover the Top 10 Trending Artists by clicking on any country...'
                 },
 
                 mapNavigation: {
@@ -248,7 +248,9 @@ var myApp = angular.module('WorldApp', [])
                         point:{
                             events:{
                                 click: function () {
+                                    window.location.hash = 'map';
                                     $scope.countryURL(this);
+                                    window.setTimeout('window.location.hash = "countryInfo"', 1000);
                                 }
                             }
                         }
