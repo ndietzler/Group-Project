@@ -1,9 +1,7 @@
 'use strict'
 Parse.initialize("H07TyKtDvsyQ7Q34Q3UxKYyHBTJx7iztp3PKL7oZ", "JctEP7G2KbdabHhbMsx7NTou0qFNcNDkjML8lWsu");
 var CountryGenreData = Parse.Object.extend("CountryGenreData");
-//var SPOTIFY_BASE_URL = 'https://api.spotify.com/v1';
 var ECHO_NEST_BASE_URL = 'http://developer.echonest.com/api/v4/';
-//var CLIENT_ID = 'bf01b3b802764ec488bfda1ee9b29cd3';
 var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
 var showBio = false;
@@ -23,7 +21,7 @@ var myApp = angular.module('WorldApp', [])
                         angular.element($('#countryInfo')).html("<h2 id=top10>Top 10 Artists from " + country + ":</h2>");
                         for (var i = 0; i < size; i++) {
                             var name = response.data["response"]["artists"][i]["name"];
-                            var strElm = "<p>" + (i + 1) + ". " + "<a ng-click=artistInfo()>" + name + "</a>" + "</p>";
+                            var strElm = "<p>" + (i + 1) + ". " + "<a href='#bioTitle' ng-click=artistInfo()>" + name + "</a>" + "</p>";
                             var compiledHtml = $compile(strElm)($scope);
                             angular.element($('#countryInfo')).append(compiledHtml);
                         }
@@ -72,7 +70,7 @@ var myApp = angular.module('WorldApp', [])
                 type: 'pie'
             },
             title: {
-                text: 'Most Popular Genres',
+                text: 'Most Popular Genres in ' + country,
                 style: {
                     color: 'white',
                     padding: 'none'
