@@ -6,31 +6,33 @@ var API_KEY = 'SOHI1JMKEKOSMGRC5';
 var fullName = "";
 var showBio = false;
 
-var myApp = angular.module('WorldApp', [])
-	.controller('WorldCtrl', ['$scope', '$http', '$compile', '$q', function($scope, $http, $compile, $q) {
-        $scope.getData = function(fullname, country) {
-            makePieChart(country);
-			var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
-			$http.get(request)
-			.then(function(response) {
-                    var size = response.data['response']['artists'].length;
-                    if (size > 10) {
-                        size = 10;
+var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$http', '$compile', '$q', function($scope, $http, $compile, $q) {
+
+    // Generates the data from a particular country after a user selects a country from the drop down or the map; adds the top 10 trending artists to the webpage or will display an error message if not top artists are found
+    $scope.getData = function(fullname, country) {
+        makePieChart(country);
+		var request = ECHO_NEST_BASE_URL + 'artist/search?' + 'api_key=' + API_KEY + '&results=99' + '&artist_location=country:' + fullname + "&sort=hotttnesss-desc" + "&bucket=hotttnesss" + '&format=json';
+		$http.get(request)
+		.then(function(response) {
+                var size = response.data['response']['artists'].length;
+                if (size > 10) {
+                    size = 10;
+                }
+                if (size != 0) {
+                    angular.element($('#countryInfo')).html("<h2 id=top10>Top 10 Artists from " + country + ":</h2>");
+                    for (var i = 0; i < size; i++) {
+                        var name = response.data["response"]["artists"][i]["name"];
+                        var strElm = "<p>" + (i + 1) + ". " + "<a href='#bioTitle' ng-click=artistInfo()>" + name + "</a>" + "</p>";
+                        var compiledHtml = $compile(strElm)($scope);
+                        angular.element($('#countryInfo')).append(compiledHtml);
                     }
-                    if (size != 0) {
-                        angular.element($('#countryInfo')).html("<h2 id=top10>Top 10 Artists from " + country + ":</h2>");
-                        for (var i = 0; i < size; i++) {
-                            var name = response.data["response"]["artists"][i]["name"];
-                            var strElm = "<p>" + (i + 1) + ". " + "<a href='#bioTitle' ng-click=artistInfo()>" + name + "</a>" + "</p>";
-                            var compiledHtml = $compile(strElm)($scope);
-                            angular.element($('#countryInfo')).append(compiledHtml);
-                        }
-                    } else {
-                        angular.element($('#countryInfo')).html("<p>No top artists found.</p>");
-                    }
-			})
-		}
+                } else {
+                    angular.element($('#countryInfo')).html("<p>No top artists found.</p>");
+                }
+		})
+	}
    
+   // Genereates the information for a particular artist: their name, biography, news, and songs
     $scope.artistInfo = function() {
         var name = $(event.target).text();
         $scope.artistName = name;
@@ -40,10 +42,12 @@ var myApp = angular.module('WorldApp', [])
         artistSongs(name);
     }
 
+    // Connects a .json file to the drop down list of countries for mobile devices
     $http.get('data/countryNames.json').success(function(data) {
        $scope.countryData = data;
     });
 
+    // Creates a pie chart representing genre percentages based on that particular countries artists
     var makePieChart = function(country){
         var pieData = [{"name" : "Not Found", "y" : 100}];
         var query = new Parse.Query("CountryStats");
@@ -102,6 +106,7 @@ var myApp = angular.module('WorldApp', [])
         })
     }
 	
+    // Adds the artist's biography to the artist information section. Only the first 1000 characters are displayed. A link to more information will be provided if no bios are displayed
     var artistBio = function(name) {
         var artistName = eliminateSpace(name);
         var request = ECHO_NEST_BASE_URL + 'artist/biographies?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
@@ -124,6 +129,7 @@ var myApp = angular.module('WorldApp', [])
         })
     }
 
+    // Adds the latest news articles about a particular artist to the artist information section. An error message will be displayed if no news articles are available
     var artistNews = function(name) {
         var artistName = eliminateSpace(name);
         var request = ECHO_NEST_BASE_URL + 'artist/news?' + 'api_key=' + API_KEY + '&name=' + artistName + '&format=json';
@@ -146,6 +152,7 @@ var myApp = angular.module('WorldApp', [])
         })
     }
 
+    // Adds the top 10 songs from a particular artist to the artist information section. An error message will be displayed if the user does not have any trending songs at this time
     var artistSongs = function(name) {
         name = eliminateSpace(name.toLowerCase());
         var request = ECHO_NEST_BASE_URL + 'artist/songs?' + 'api_key=' + API_KEY + '&name=' + name + '&format=json' + '&results=10';
@@ -170,19 +177,23 @@ var myApp = angular.module('WorldApp', [])
         })
     }
 
+    // Grabs the Spotify ID from a particular song with a song title and artist's name and adds the Spotify player if the request is successful. If the request is unsuccessful, and error message is displayed
     $scope.playSong = function() {
         var title = $(event.target).attr('id');
         var name = $(event.target).attr('class');
         var request = ECHO_NEST_BASE_URL + 'song/search?' + 'api_key=' + API_KEY + '&format=json&results=1&title=' + title + '&artist=' + name + '&bucket=id:spotify&bucket=tracks&limit=true';
         console.log(request);
         $http.get(request)
-        .then(function(response) {
+        .then(function success(response) {
             var id = response.data['response']['songs'][0]['tracks'][0]['foreign_id'];
             var url = 'http://embed.spotify.com/?url=' + id;
             angular.element($('#play')).html('<iframe src=' + url + ' width="400" height="480" frameborder="0" allowtransparency="true"></iframe>');
+        }).catch(function error(response) {
+            angular.element($('#play')).text('We cannot play the requested song at this time. Please select another song.');
         })
     }
 
+    // Eliminates any white space in the name passed in and strings different words together with a series of '+'
     var eliminateSpace = function(name) {
         name = name.split(" ");
         if (name.length == 1) {
@@ -200,6 +211,7 @@ var myApp = angular.module('WorldApp', [])
         return name;
     }
 
+    // Takes in country the user clicks on the map or selects from the drop down on mobile devices; Hides data below the map or dropdown from another country if it is present; checks for cases of country names that differ in Echo Nest's documentation; calls a function to get the data of that particular country
     $scope.countryURL = function(country) {
         $scope.showBio = false;
         var countryName = country.name;
@@ -207,10 +219,14 @@ var myApp = angular.module('WorldApp', [])
         fullName = eliminateSpace(fullName);
         if (fullName == 'united+states+of+america') {
             fullName = 'united+states';
+        } 
+        else if (fullName == 'ivory+coast') {
+            fullName = 'cote+d\"ivoire';
         }
         $scope.getData(fullName, countryName);
     }
 	
+    // Creates the map based on data/country.json; adds certain style elements to the map; directs the user to the country information once a country is clicked
     angular.element(document).ready(function(){
         $.getJSON('data/country.json', function(data) {
             $('#map').highcharts('Map', {
@@ -225,7 +241,7 @@ var myApp = angular.module('WorldApp', [])
                     style : {
                         color : "white",
                     },
-                    text : 'Discover music of the world by clicking on a country...'
+                    text : 'Discover the Top 10 Trending Artists by clicking on any country...'
                 },
 
                 mapNavigation: {
@@ -245,7 +261,9 @@ var myApp = angular.module('WorldApp', [])
                         point:{
                             events:{
                                 click: function () {
+                                    window.location.hash = 'map';
                                     $scope.countryURL(this);
+                                    window.setTimeout('window.location.hash = "countryInfo"', 500);
                                 }
                             }
                         }
