@@ -148,7 +148,7 @@ var myApp = angular.module('WorldApp', [])
 
     var artistSongs = function(name) {
         name = eliminateSpace(name.toLowerCase());
-        var request = ECHO_NEST_BASE_URL + 'artist/songs?' + 'api_key=' + API_KEY + '&name=' + name + '&format=json' + '&results=15';
+        var request = ECHO_NEST_BASE_URL + 'artist/songs?' + 'api_key=' + API_KEY + '&name=' + name + '&format=json' + '&results=10';
         console.log(request);
         $http.get(request)
         .then(function(response) {
