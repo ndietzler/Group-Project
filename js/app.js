@@ -188,7 +188,7 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
             var id = response.data['response']['songs'][0]['tracks'][0]['foreign_id'];
             var url = 'http://embed.spotify.com/?url=' + id;
             angular.element($('#play')).html('<iframe src=' + url + ' width="400" height="480" frameborder="0" allowtransparency="true"></iframe>');
-        }, function error(response) {
+        }).catch(function error(response) {
             angular.element($('#play')).text('We cannot play the requested song at this time. Please select another song.');
         })
     }
@@ -263,7 +263,7 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
                                 click: function () {
                                     window.location.hash = 'map';
                                     $scope.countryURL(this);
-                                    window.setTimeout('window.location.hash = "countryInfo"', 1000);
+                                    window.setTimeout('window.location.hash = "countryInfo"', 500);
                                 }
                             }
                         }
