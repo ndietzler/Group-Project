@@ -32,7 +32,7 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
 		})
 	}
    
-   // Genereates the information for a particular artist: their name, biography, news, and songs
+   // Generates the information for a particular artist: their name, biography, news, and songs
     $scope.artistInfo = function() {
         var name = $(event.target).text();
         $scope.artistName = name;
@@ -117,13 +117,13 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
             angular.element($('#bioTitle')).html('<h2 id="personName">' + name + '<h2>');
             for (var i = 0; i < size; i++) {
                 if (response.data['response']['biographies'][i]['text'].length >= 1000 && count == 0) {
-                    angular.element($('#bio')).html('<h3>Biograghy</h3>');
+                    angular.element($('#bio')).html('<h3>Biography</h3>');
                     angular.element($('#bio')).append('<p class="bioBody">' + response.data['response']['biographies'][i]['text'].slice(0, 1000) + "...</p>") 
                     angular.element($('#bio')).append('\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
                     count = 1;
                 } 
                 if (response.data['response']['biographies'][i]['text'].length < 1000 && count == 0) {
-                    angular.element($('#bio')).html('<h3>Biograghy</h3>\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
+                    angular.element($('#bio')).html('<h3>Biography</h3>\n' + '<div class="bioBody">' + "Go to " + '<a href=' + response.data['response']['biographies'][0]['url'] + '>' + response.data['response']['biographies'][0]['url'] + '</a>' + " for more information." + '</div>');
                 }
             }
         })
