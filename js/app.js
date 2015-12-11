@@ -193,20 +193,30 @@ var myApp = angular.module('WorldApp', []).controller('WorldCtrl', ['$scope', '$
         })
     }
 
-    // Eliminates any white space in the name passed in and strings different words together with a series of '+'
+    // Eliminates any white space in the name passed in and strings different words together with a series of '+'; removes an & from the string if it exists
     var eliminateSpace = function(name) {
-        name = name.split(" ");
-        if (name.length == 1) {
-            name = name[0];
-        } else {
-            var newName = '';
-            for (var i = 0; i < name.length; i++) {
-                newName += name[i];
-                if (name[i + 1] != null) {
-                    newName += '+';
-                }
+        var check = name.includes('&');
+        if (check) {
+            name = name.split(' & ');
+            var newName = name[0];
+            for (var i = 1; i < name.length; i++) {
+                newName += '+' + name[i];
             }
             name = newName;
+        } else {
+            name = name.split(" ");
+            if (name.length == 1) {
+                name = name[0];
+            } else {
+                var newName = '';
+                for (var i = 0; i < name.length; i++) {
+                    newName += name[i];
+                    if (name[i + 1] != null) {
+                        newName += '+';
+                    }
+                }
+                name = newName;
+            }
         }
         return name;
     }
