@@ -207,6 +207,9 @@ var myApp = angular.module('WorldApp', [])
         fullName = eliminateSpace(fullName);
         if (fullName == 'united+states+of+america') {
             fullName = 'united+states';
+        } 
+        else if (fullName == 'ivory+coast') {
+            fullName = 'cote+d\"ivoire';
         }
         $scope.getData(fullName, countryName);
     }
